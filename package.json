@@ -1,0 +1,23 @@
+{
+	"name": "github-info-server",
+	"version": "1.0.0",
+	"description": "Info api for personal use.",
+	"main": "index.js",
+	"repository": "https://github.com/NeserCode/Github-Info-Server.git",
+	"author": "✨NeserCode <nesercode@gmail.com>",
+	"license": "MIT",
+	"private": false,
+	"scripts": {
+		"dev": "ts-node-dev --respawn --transpile-only src/app.ts"
+	},
+	"dependencies": {
+		"dotenv": "^16.4.5",
+		"express": "^4.19.2"
+	},
+	"devDependencies": {
+		"@types/express": "^4.17.21",
+		"@types/node": "^20.12.2",
+		"ts-node-dev": "^2.0.0",
+		"typescript": "^5.4.3"
+	}
+}
