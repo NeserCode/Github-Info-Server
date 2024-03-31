@@ -4,5 +4,6 @@ export interface EnvOutput {
 		GITHUB_AUTH?: string
 		REQ_AUTH?: string
 		PORT?: string
+		CORS?: string
 	}
 }
