@@ -9,11 +9,10 @@ const Request_AccessToken =
 	envConfig.parsed?.REQ_AUTH || (process.env.REQ_AUTH as string) || null
 
 function cors(res: Response) {
-	if (envConfig.parsed?.CORS || process.env.CORS) {
+	if (envConfig.parsed?.CORS || process.env.CORS)
 		return parseInt(envConfig.parsed?.CORS || process.env.CORS || "0") === 1
 			? res.setHeader("Access-Control-Allow-Origin", "*")
 			: null
-	}
 }
 
 function routes(app: Express) {
@@ -23,22 +22,19 @@ function routes(app: Express) {
 	})
 
 	app.post("/user", (req: Request, res: Response) => {
+		cors(res)
+
 		const AuthHeader = req.headers.authorization?.split(" ")[1] ?? null
 		if (
 			!AuthHeader ||
 			!Github_AccessToken ||
 			AuthHeader !== Request_AccessToken
-		) {
-			cors(res)
+		)
 			return res.status(401).send("Unauthorized")
-		}
 
 		const params: UserRequestBody = req.body
 
-		if (!params.username) {
-			cors(res)
-			return res.status(403).send("Missing parameters.")
-		}
+		if (!params.username) return res.status(403).send("Missing parameters.")
 
 		fetch(`https://api.github.com/users/${params.username}`, {
 			method: "GET",
@@ -49,33 +45,25 @@ function routes(app: Express) {
 			},
 		})
 			.then((githubRes) => githubRes.json())
-			.then((data) => {
-				cors(res)
-				return res.status(200).send(data)
-			})
-			.catch((err) => {
-				cors(res)
-				return res.status(400).send(err)
-			})
+			.then((data) => res.status(200).send(data))
+			.catch((err) => res.status(400).send(err))
 	})
 
 	app.post("/repo", (req: Request, res: Response) => {
+		cors(res)
+
 		const AuthHeader = req.headers.authorization?.split(" ")[1] ?? null
 		if (
 			!AuthHeader ||
 			!Github_AccessToken ||
 			AuthHeader !== Request_AccessToken
-		) {
-			cors(res)
+		)
 			return res.status(401).send("Unauthorized")
-		}
 
 		const params: RepoRequestBody = req.body
 
-		if (!params.username || !params.repo) {
-			cors(res)
+		if (!params.username || !params.repo)
 			return res.status(403).send("Missing parameters.")
-		}
 
 		fetch(`https://api.github.com/repos/${params.username}/${params.repo}`, {
 			method: "GET",
@@ -86,14 +74,8 @@ function routes(app: Express) {
 			},
 		})
 			.then((githubRes) => githubRes.json())
-			.then((data) => {
-				cors(res)
-				return res.status(200).send(data)
-			})
-			.catch((err) => {
-				cors(res)
-				return res.status(400).send(err)
-			})
+			.then((data) => res.status(200).send(data))
+			.catch((err) => res.status(400).send(err))
 	})
 }
 
