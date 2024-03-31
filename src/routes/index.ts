@@ -8,22 +8,12 @@ const Github_AccessToken =
 const Request_AccessToken =
 	envConfig.parsed?.REQ_AUTH || (process.env.REQ_AUTH as string) || null
 
-function cors(res: Response) {
-	if (envConfig.parsed?.CORS || process.env.CORS)
-		return parseInt(envConfig.parsed?.CORS || process.env.CORS || "0") === 1
-			? res.setHeader("Access-Control-Allow-Origin", "*")
-			: null
-}
-
 function routes(app: Express) {
 	app.get("/", (req: Request, res: Response) => {
-		cors(res)
 		return res.status(200).send("Thanks for using Github Info API.")
 	})
 
 	app.post("/user", (req: Request, res: Response) => {
-		cors(res)
-
 		const AuthHeader = req.headers.authorization?.split(" ")[1] ?? null
 		if (
 			!AuthHeader ||
@@ -50,8 +40,6 @@ function routes(app: Express) {
 	})
 
 	app.post("/repo", (req: Request, res: Response) => {
-		cors(res)
-
 		const AuthHeader = req.headers.authorization?.split(" ")[1] ?? null
 		if (
 			!AuthHeader ||
