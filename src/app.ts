@@ -10,7 +10,7 @@ const envConfig: EnvOutput = configDotenv() as EnvOutput
 app.use(express.json())
 app.use(express.urlencoded())
 
-const PORT = envConfig.parsed?.PORT || 3000
+const PORT = envConfig.parsed?.PORT || (process.env.PORT as string) || 3000
 
 app.listen(PORT, async () => {
 	console.log(`App is running at http://localhost:${PORT}`)

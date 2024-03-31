@@ -3,8 +3,10 @@ import { Express, Request, Response } from "express"
 import { EnvOutput, UserRequestBody, RepoRequestBody } from "../../shared"
 
 const envConfig: EnvOutput = configDotenv() as EnvOutput
-const Github_AccessToken = envConfig.parsed?.GITHUB_AUTH || null
-const Request_AccessToken = envConfig.parsed?.REQ_AUTH || null
+const Github_AccessToken =
+	envConfig.parsed?.GITHUB_AUTH || (process.env.GITHUB_AUTH as string) || null
+const Request_AccessToken =
+	envConfig.parsed?.REQ_AUTH || (process.env.REQ_AUTH as string) || null
 
 function routes(app: Express) {
 	app.get("/", (req: Request, res: Response) =>
