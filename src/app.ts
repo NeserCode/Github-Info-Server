@@ -16,12 +16,9 @@ app.all("*", function (req, res, next) {
 	if (envConfig.parsed?.CORS || process.env.CORS)
 		if (parseInt(envConfig.parsed?.CORS || process.env.CORS || "0") === 1) {
 			res.setHeader("Access-Control-Allow-Credentials", "true")
-			res.setHeader("Access-Control-Allow-Origin", "*") // 添加这一行代码，代理配置不成功
+			res.setHeader("Access-Control-Allow-Origin", "*")
 			res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
-			res.header(
-				"Access-Control-Allow-Headers",
-				"Origin, X-Requested-With, Content-Type, Accept, If-Modified-Since"
-			)
+			res.header("Access-Control-Allow-Headers", "*")
 		}
 	next()
 })
